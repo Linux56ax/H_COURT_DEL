@@ -199,7 +199,7 @@ def extract_url(result:str, data:dict):
     urls = []
     j=1
     for _ in result_url:
-        data[f'pdf_url{j}'].append(_.get('href'))
+        data[f'pdf_url{j}']=(_.get('href'))
     if result_url:
         return data
     
