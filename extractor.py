@@ -175,7 +175,7 @@ def submit_order_search(court_url: str):
 def extract_url(result:str, data:dict):
     soup = BeautifulSoup(result, 'html.parser')
     all_text_content = soup.stripped_strings
-    extracted_dates = []
+    dates=[]
     # Iterate through all the text strings found by BeautifulSoup
     for text_string in all_text_content:
     # Split the string by spaces to get individual words or parts
@@ -189,17 +189,17 @@ def extract_url(result:str, data:dict):
                 word[:2].isdigit() and 
                 word[3:5].isdigit() and 
                 word[6:].isdigit()):
-                extracted_dates.append(word)
-    i=1
-    for date in extracted_dates:
-        data[f'Date of Order{i}']= date
-        i+=1
+                dates.append(word)
 
     result_url=soup.find_all('a', href=lambda href: href and href.startswith("https://delhihighcourt.nic.in/app/showlogo/"))
+    order = {}
     urls = []
     j=1
     for _ in result_url:
-        data[f'pdf_url{j}']=(_.get('href'))
+        urls.append(_.get('href'))
+    order['link']=urls
+    order['order_dates']=dates
+    data['orders']=order
     if result_url:
         return data
     
@@ -292,26 +292,43 @@ def order_extractor(user_case_type, user_case_number, user_case_year):
         data['Respondent']= result_html[2]
         data['Last Date']= result_html[3]
         data['Court No']= result_html[4]
-        
+        data_n={}
         order=(submit_order_search(result_html[0]))
         if order:
             pdf_data=extract_url(order, data)
-            data.update(pdf_data)
-    data['Filing Date']=get_filing_date(user_case_type, user_case_number, user_case_year)
+            data_n=pdf_data 
+    data_n['Filing Date']=get_filing_date(user_case_type, user_case_number, user_case_year)
     return data 
 
-#Pdf File name modifier 
-def get_pdf_filename(pdf_data):
-    """Generate a safe filename for the PDF."""
-    return f"{pdf_data['case_type']}_{pdf_data['case_number']}_{pdf_data['case_year']}.pdf".replace(" ", "_")
+def get_pdf_filename(data):
+    """Helper function to create a filename based on case data."""
+    case_type = data.get('case_type', 'case')
+    case_number = data.get('case_number', '0000')
+    case_year = data.get('case_year', '0000')
+    return f"{case_type}_{case_number}_{case_year}_details.pdf"
 
-
-# PDF Generator Function
 def pdf_generator(pdf_data, save_to_disk=True):
+    """
+    Generates a PDF document from case data.
+    
+    Args:
+        pdf_data (dict): A dictionary containing case information.
+        save_to_disk (bool): If True, saves the PDF to a temporary file.
+                             If False, returns the PDF as a string.
+    
+    Returns:
+        str: The file path if saved to disk, or the PDF content as a string.
+    """
     if not pdf_data:
         print("No data available to generate PDF.")
         return None
 
+    # Strip prefix from last date string
+    last_date = pdf_data.get('Last Date', 'N/A')
+    if isinstance(last_date, str) and last_date.startswith('Last Date: '):
+        last_date = last_date.replace('Last Date: ', '')
+
+    # Initialize PDF object
     pdf = FPDF()
     pdf.add_page()
 
@@ -335,10 +352,9 @@ def pdf_generator(pdf_data, save_to_disk=True):
         ("Case Type:", pdf_data.get('case_type', 'N/A')),
         ("Case Number:", pdf_data.get('case_number', 'N/A')),
         ("Year:", pdf_data.get('case_year', 'N/A')),
-        ("Status:", pdf_data.get('status', 'N/A')),
-        ("Filing Date:", pdf_data.get('filing_date', 'N/A')),
-        ("Next Date:", pdf_data.get('next_date', 'N/A')),
-        ("Hearing Date:", pdf_data.get('hearing_date', 'N/A'))
+        ("Filing Date:", pdf_data.get('Filing Date', 'N/A')),
+        ("Last Date:", last_date),
+        ("Court No:", pdf_data.get('Court No', 'N/A')),
     ]
 
     for label, value in case_info:
@@ -355,11 +371,11 @@ def pdf_generator(pdf_data, save_to_disk=True):
 
     pdf.set_font('Arial', '', 10)
     pdf.cell(50, 6, 'Petitioner:')
-    pdf.multi_cell(0, 6, pdf_data.get('petitioner', 'N/A'))
+    pdf.multi_cell(0, 6, pdf_data.get('Petitioner', 'N/A'))
     pdf.ln(2)
 
     pdf.cell(50, 6, 'Respondent:')
-    pdf.multi_cell(0, 6, pdf_data.get('respondent', 'N/A'))
+    pdf.multi_cell(0, 6, pdf_data.get('Respondent', 'N/A'))
     pdf.ln(8)
 
     # ======= ORDERS & DOCUMENTS =======
@@ -369,19 +385,25 @@ def pdf_generator(pdf_data, save_to_disk=True):
     pdf.ln(5)
 
     pdf.set_font('Arial', '', 10)
-    orders = pdf_data.get('orders', [])
-    if orders:
-        for idx, order in enumerate(orders, 1):
+    
+    # Get the lists of links and dates from the nested dictionary
+    orders_data = pdf_data.get('orders', {})
+    links = orders_data.get('link', [])
+    dates = orders_data.get('order_dates', [])
+    
+    # Check if we have orders and that the lists have the same length
+    if links and dates and len(links) == len(dates):
+        for idx, (order_date, link) in enumerate(zip(dates, links), 1):
             # Order number and date
             pdf.cell(15, 6, f"{idx}.")
             pdf.cell(30, 6, "Date:")
-            pdf.cell(40, 6, order.get('date', 'N/A'))
+            pdf.cell(40, 6, order_date)
 
             # Clickable link
             link_text = "Click to view document"
             pdf.set_text_color(0, 0, 255)
             pdf.set_font('Arial', 'U', 10)
-            pdf.cell(0, 6, link_text, ln=True, link=order.get('link', ''))
+            pdf.cell(0, 6, link_text, ln=True, link=link)
 
             # Reset styling
             pdf.set_text_color(0, 0, 0)
@@ -390,7 +412,7 @@ def pdf_generator(pdf_data, save_to_disk=True):
             # Show URL preview
             pdf.set_font('Arial', '', 8)
             pdf.set_text_color(100, 100, 100)
-            url_display = order.get('link', '')[:80] + ('...' if len(order.get('link', '')) > 80 else '')
+            url_display = link[:80] + ('...' if len(link) > 80 else '')
             pdf.cell(65, 4, "")
             pdf.cell(0, 4, f"URL: {url_display}", ln=True)
 
@@ -423,7 +445,7 @@ if __name__ == "__main__":
     case_type = "W.P.(C)"
     case_number = "4352"
     year = "2025"
-    pdf_data =  order_extractor(case_type, case_number, year)
+    pdf_data=(order_extractor(case_type, case_number, year))
     pdf_file = pdf_generator(pdf_data)
     
     if pdf_file:
