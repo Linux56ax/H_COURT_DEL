@@ -1,7 +1,7 @@
 from playwright.sync_api import sync_playwright, Page
 from bs4 import BeautifulSoup
 
-court_url = "https://delhihighcourt.nic.in/app/case-type-status-details/eyJpdiI6ImpzQ0pkZVpYUmN0dk1IcTR3d0wzS2c9PSIsInZhbHVlIjoiYWNGZzBwYk1ha1A3K1JwMnRTQUFTUT09IiwibWFjIjoiZDllMWQxNWI5MzlmMDA3ZTkwOTY5YTZhZjg4ZTNmNWU0Yzk2YTdiODRhNGY0NTY5NjQ3YzUyOTJhMDQ4N2RjOCIsInRhZyI6IiJ9/eyJpdiI6Imh6NTlrdUd3MzFJYlM3bDd3UThIdUE9PSIsInZhbHVlIjoic0JXZXFIaWx6WEtyRkNxL3hYZkVIUT09IiwibWFjIjoiMmZjN2QyMjAyZDI0MjZkNDBhOWY5NzE1YTE1ZmQ3MDE0NzJmYTgyZjBiMjkyMmY3YTljZmQ3Y2JjZTljNmU3YSIsInRhZyI6IiJ9/eyJpdiI6Ik91Z1FFZlhJallxYzJDZStXY1VzcUE9PSIsInZhbHVlIjoiTEVteE9aMDRUTGtHYWJTMGQwOGc4dz09IiwibWFjIjoiODRmOGFjODg1MGMzNWMwOGZkMGRmZDA3YjJjYWExYTdlMDBhMThkOTRkODZlZDIzYTg0NzYwOGE0Y2FjYzY1ZCIsInRhZyI6IiJ9"
+court_url = "https://delhihighcourt.nic.in/app/case-type-status-details/eyJpdiI6InNzckhSNEIvMDBGNExQVW1QR2htV3c9PSIsInZhbHVlIjoiTTlpMVlHeUJzWlNuOVRIaTRMaHBpdz09IiwibWFjIjoiYzhhNTg5ZmVlMTE2ZjM3ZThjMThhMmQ3Zjg2NDg2YTc4MGU2YjViYzg1NjJkNWJjMjQxYmY1ZWU2YzVkODhhMyIsInRhZyI6IiJ9/eyJpdiI6Ii90Yk5JWnhrZGVyNGJDd3MzYXJYZFE9PSIsInZhbHVlIjoicmVjM2N1M2p4c2I0cUNUbEgvbE56dz09IiwibWFjIjoiYjY1ZDFjYTQwMzM1ZTkyMzBjYzU0OTI4ODM3ZWJmNzVjNjU0ZDNhOTFiZmEzNjQ3NDhkNTQ4MTZjNGI2ZDcxNiIsInRhZyI6IiJ9/eyJpdiI6InhpcVFhRzkySkdWVk9SeStMSWE0U2c9PSIsInZhbHVlIjoiZUhiWXBHUGhvcjdnS2ZKVVQxWWdpQT09IiwibWFjIjoiODRiYjM3ZDcxMjhlYmVjOTI2YmFhY2E4OGMzM2U5MmQwMmQzZmU3MWUwOTA0ZWFlNTU5YWU0OTZhZTBhMTI0OCIsInRhZyI6IiJ9"
 def submit_order_search(court_url: str):
     
     with sync_playwright() as p:
@@ -52,11 +52,34 @@ def submit_order_search(court_url: str):
 #Function to extract the Case URL file for orderds
 def extract_url(result:str):
     soup = BeautifulSoup(result, 'html.parser')
-    #result_url=soup.find('a', href=lambda href: href and href.startswith("https://delhihighcourt.nic.in/app/showlogo/"))
-    result=soup.find_all(id='caseTable')
-"""    if result_url:
-        return result_url.get('href')"""
+    all_text_content = soup.stripped_strings
+    extracted_dates = []
+    # Iterate through all the text strings found by BeautifulSoup
+    for text_string in all_text_content:
+    # Split the string by spaces to get individual words or parts
+        words = text_string.split()
+        for word in words:
+            # Manually check if the word is a date without a separate function
+            # This is the combined logic from the old is_date function.
+            if (len(word) == 10 and 
+                word[2] == '/' and 
+                word[5] == '/' and 
+                word[:2].isdigit() and 
+                word[3:5].isdigit() and 
+                word[6:].isdigit()):
+                extracted_dates.append(word)
+
+    result_url=soup.find_all('a', href=lambda href: href and href.startswith("https://delhihighcourt.nic.in/app/showlogo/"))
+    urls = []
+    for _ in result_url:
+        urls.append(_.get('href'))
+    if result_url:
+        return urls, extracted_dates
 
 Html=submit_order_search(court_url)
-print(Html)
+# print(Html)
 print(extract_url(Html))
+
+
+
+

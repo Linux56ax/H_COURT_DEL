@@ -121,6 +121,7 @@ def extract_details(result:str):
 Html=submit_case_search('BAIL APPLN.', '1201','2025')
 
 z=[extract_details(Html)]
+print(z)
 
 
 """with open('web1.txt','w') as file:
