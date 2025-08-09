@@ -295,16 +295,18 @@ def order_extractor(user_case_type, user_case_number, user_case_year):
         
         order=(submit_order_search(result_html[0]))
         if order:
-            pdf_data=extract_url(order)
+            pdf_data=extract_url(order, data)
             data.update(pdf_data)
     data['Filing Date']=get_filing_date(user_case_type, user_case_number, user_case_year)
     return data 
 
-
+#Pdf File name modifier 
 def get_pdf_filename(pdf_data):
     """Generate a safe filename for the PDF."""
     return f"{pdf_data['case_type']}_{pdf_data['case_number']}_{pdf_data['case_year']}.pdf".replace(" ", "_")
 
+
+# PDF Generator Function
 def pdf_generator(pdf_data, save_to_disk=True):
     if not pdf_data:
         print("No data available to generate PDF.")
