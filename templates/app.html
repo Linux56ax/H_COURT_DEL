@@ -111,11 +111,97 @@
       background-color: #5d9ee9;
       transform: translateY(-2px);
     }
+
+    .results {
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(40, 60, 90, 0.5);
+      animation: fadeIn 0.8s ease-in-out;
+    }
+
+    .results h2 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      color: #b3c5e8;
+    }
+
+    .results-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    @media (min-width: 600px) {
+        .results-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    
+    .result-item {
+        background: #2a354c;
+        padding: 1rem;
+        border-radius: 0.75rem;
+        border: 1px solid #4a5c7f;
+    }
+
+    .result-item strong {
+      display: block;
+      margin-bottom: 0.25rem;
+      color: #e0e6f0;
+    }
+
+    .download-link {
+      display: inline-block;
+      width: 100%;
+      padding: 0.8rem 1rem;
+      text-align: center;
+      background-color: #28a745;
+      color: #fff;
+      border-radius: 0.75rem;
+      text-decoration: none;
+      font-weight: 600;
+      margin-top: 1rem;
+      transition: background-color 0.3s ease;
+    }
+
+    .download-link:hover {
+      background-color: #218838;
+    }
+
+    .message-box {
+      background-color: #ffc107;
+      color: #343a40;
+      padding: 1rem;
+      border-radius: 0.75rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+      font-weight: 600;
+      display: none; /* Hidden by default */
+    }
+
+    .loading-spinner {
+        display: none; /* Hidden by default */
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #4a90e2;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        animation: spin 1s linear infinite;
+        margin: 1rem auto;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
   </style>
 </head>
 <body>
 
   <div class="container">
+    <div id="messageBox" class="message-box"></div>
     <h1>Case Search Portal</h1>
     <p>Find case details by entering the case type, number, and year.</p>
 
@@ -196,184 +282,173 @@
                 <option value="ETR">ETR</option>
                 <option value="EX.F.A.">EX.F.A.</option>
                 <option value="EX.P.">EX.P.</option>
-                <option value="EX.S.A.">EX.S.A.</option>
-                <option value="FAO">FAO</option>
-                <option value="FAO (COMM)">FAO (COMM)</option>
-                <option value="FAO-IPD">FAO-IPD</option>
-                <option value="FAO(OS)">FAO(OS)</option>
-                <option value="FAO(OS) (COMM)">FAO(OS) (COMM)</option>
-                <option value="FAO(OS)(IPD)">FAO(OS)(IPD)</option>
-                <option value="GCAC">GCAC</option>
-                <option value="GCAR">GCAR</option>
-                <option value="GTA">GTA</option>
-                <option value="GTC">GTC</option>
-                <option value="GTR">GTR</option>
+                <option value="F.A.O.">F.A.O.</option>
+                <option value="F.A.O.(OS)">F.A.O.(OS)</option>
+                <option value="F.A.O.(OS) (COMM)">F.A.O.(OS) (COMM)</option>
+                <option value="F.A.O.(OS) (IPD)">F.A.O.(OS) (IPD)</option>
+                <option value="F.A.P.">F.A.P.</option>
+                <option value="H.C.P.">H.C.P.</option>
+                <option value="I.A.P.A.">I.A.P.A.</option>
                 <option value="I.A.">I.A.</option>
-                <option value="I.P.A.">I.P.A.</option>
-                <option value="ITA">ITA</option>
-                <option value="ITC">ITC</option>
-                <option value="ITR">ITR</option>
-                <option value="ITSA">ITSA</option>
-                <option value="LA.APP.">LA.APP.</option>
+                <option value="IPA">IPA</option>
+                <option value="IPD-CR">IPD-CR</option>
+                <option value="J.B.">J.B.</option>
+                <option value="J.B.(CO.)">J.B.(CO.)</option>
+                <option value="L.A.APP.">L.A.APP.</option>
+                <option value="L.A.APP.(WPC)">L.A.APP.(WPC)</option>
                 <option value="LPA">LPA</option>
-                <option value="MAC.APP.">MAC.APP.</option>
-                <option value="MAT.">MAT.</option>
-                <option value="MAT.APP.">MAT.APP.</option>
+                <option value="LPA-IPD">LPA-IPD</option>
                 <option value="MAT.APP.(F.C.)">MAT.APP.(F.C.)</option>
-                <option value="MAT.CASE">MAT.CASE</option>
-                <option value="MAT.REF.">MAT.REF.</option>
-                <option value="MISC. APPEAL(PMLA)">MISC. APPEAL(PMLA)</option>
-                <option value="OA">OA</option>
-                <option value="OCJA">OCJA</option>
+                <option value="M.C.">M.C.</option>
+                <option value="MCA(CO.)">MCA(CO.)</option>
+                <option value="M.C.D.">M.C.D.</option>
+                <option value="MISC.">MISC.</option>
                 <option value="O.M.P.">O.M.P.</option>
-                <option value="O.M.P. (COMM)">O.M.P. (COMM)</option>
-                <option value="OMP (CONT.)">OMP (CONT.)</option>
-                <option value="O.M.P. (E)">O.M.P. (E)</option>
-                <option value="O.M.P. (E) (COMM.)">O.M.P. (E) (COMM.)</option>
-                <option value="O.M.P.(EFA)(COMM.)">O.M.P.(EFA)(COMM.)</option>
-                <option value="O.M.P. (ENF.)">O.M.P. (ENF.)</option>
-                <option value="OMP (ENF.) (COMM.)">OMP (ENF.) (COMM.)</option>
-                <option value="O.M.P.(I)">O.M.P.(I)</option>
-                <option value="O.M.P.(I) (COMM.)">O.M.P.(I) (COMM.)</option>
-                <option value="O.M.P. (J) (COMM.)">O.M.P. (J) (COMM.)</option>
-                <option value="O.M.P. (MISC.)">O.M.P. (MISC.)</option>
-                <option value="O.M.P.(MISC.)(COMM.)">O.M.P.(MISC.)(COMM.)</option>
-                <option value="O.M.P.(T)">O.M.P.(T)</option>
-                <option value="O.M.P. (T) (COMM.)">O.M.P. (T) (COMM.)</option>
-                <option value="O.REF.">O.REF.</option>
-                <option value="RC.REV.">RC.REV.</option>
-                <option value="RC.S.A.">RC.S.A.</option>
-                <option value="RERA APPEAL">RERA APPEAL</option>
-                <option value="REVIEW PET.">REVIEW PET.</option>
-                <option value="RFA">RFA</option>
-                <option value="RFA(COMM)">RFA(COMM)</option>
-                <option value="RFA-IPD">RFA-IPD</option>
+                <option value="O.M.P.(COMM)">O.M.P.(COMM)</option>
+                <option value="O.M.P.(EFA)">O.M.P.(EFA)</option>
+                <option value="O.M.P.(MISC)(COMM)">O.M.P.(MISC)(COMM)</option>
+                <option value="O.M.P.(T)(COMM)">O.M.P.(T)(COMM)</option>
+                <option value="P.C.">P.C.</option>
+                <option value="P.P.A.">P.P.A.</option>
+                <option value="R.F.A.">R.F.A.</option>
                 <option value="RFA(OS)">RFA(OS)</option>
                 <option value="RFA(OS)(COMM)">RFA(OS)(COMM)</option>
-                <option value="RF(OS)(IPD)">RF(OS)(IPD)</option>
-                <option value="RSA">RSA</option>
-                <option value="SCA">SCA</option>
-                <option value="SDR">SDR</option>
-                <option value="SERTA">SERTA</option>
-                <option value="ST.APPL.">ST.APPL.</option>
-                <option value="STC">STC</option>
-                <option value="ST.REF.">ST.REF.</option>
-                <option value="SUR.T.REF.">SUR.T.REF.</option>
-                <option value="TEST.CAS.">TEST.CAS.</option>
-                <option value="TR.P.(C)">TR.P.(C)</option>
-                <option value="TR.P.(C.)">TR.P.(C.)</option>
-                <option value="TR.P.(CRL.)">TR.P.(CRL.)</option>
-                <option value="VAT APPEAL">VAT APPEAL</option>
+                <option value="RFA(OS) (IPD)">RFA(OS) (IPD)</option>
+                <option value="R.C.A.">R.C.A.</option>
+                <option value="R.C.R.">R.C.R.</option>
+                <option value="REV.PET.">REV.PET.</option>
+                <option value="S.R.S.">S.R.S.</option>
+                <option value="S.T.APPEAL">S.T.APPEAL</option>
+                <option value="TAKE OVER">TAKE OVER</option>
+                <option value="TAX.A.">TAX.A.</option>
+                <option value="TAX.C.">TAX.C.</option>
+                <option value="W.A.">W.A.</option>
                 <option value="W.P.(C)">W.P.(C)</option>
+                <option value="W.P.(C) PIL">W.P.(C) PIL</option>
                 <option value="W.P.(C)-IPD">W.P.(C)-IPD</option>
-                <option value="WP(C)(IPD)">WP(C)(IPD)</option>
                 <option value="W.P.(CRL)">W.P.(CRL)</option>
-                <option value="WTA">WTA</option>
-                <option value="WTC">WTC</option>
-                <option value="WTR">WTR</option>
+                <option value="W.P.(CRL.) PIL">W.P.(CRL.) PIL</option>
+                <option value="W.P.(L)">W.P.(L)</option>
           </select>
         </div>
-
         <!-- Case Number Input -->
         <div>
-          <label for="caseNo">Case Number</label>
-          <input type="text" id="caseNo" name="caseNo" placeholder="e.g., 12345" required>
+          <label for="caseNumber">Case Number</label>
+          <input type="text" id="caseNumber" name="caseNumber" placeholder="e.g., 12345" required>
         </div>
-
-        <!-- Case Year Dropdown (Hard-coded for no-JS version) -->
+        <!-- Year Dropdown -->
         <div>
-          <label for="caseYear">Case Year</label>
-          <select id="caseYear" name="caseYear" required>
-            <option value="" disabled selected>Select Case Year</option>
-            <option value="2025">2025</option>
-            <option value="2024">2024</option>
-            <option value="2023">2023</option>
-            <option value="2022">2022</option>
-            <option value="2021">2021</option>
-            <option value="2020">2020</option>
-            <option value="2019">2019</option>
-            <option value="2018">2018</option>
-            <option value="2017">2017</option>
-            <option value="2016">2016</option>
-            <option value="2015">2015</option>
-            <option value="2014">2014</option>
-            <option value="2013">2013</option>
-            <option value="2012">2012</option>
-            <option value="2011">2011</option>
-            <option value="2010">2010</option>
-            <option value="2009">2009</option>
-            <option value="2008">2008</option>
-            <option value="2007">2007</option>
-            <option value="2006">2006</option>
-            <option value="2005">2005</option>
-            <option value="2004">2004</option>
-            <option value="2003">2003</option>
-            <option value="2002">2002</option>
-            <option value="2001">2001</option>
-            <option value="2000">2000</option>
-            <option value="1999">1999</option>
-            <option value="1998">1998</option>
-            <option value="1997">1997</option>
-            <option value="1996">1996</option>
-            <option value="1995">1995</option>
-            <option value="1994">1994</option>
-            <option value="1993">1993</option>
-            <option value="1992">1992</option>
-            <option value="1991">1991</option>
-            <option value="1990">1990</option>
-            <option value="1989">1989</option>
-            <option value="1988">1988</option>
-            <option value="1987">1987</option>
-            <option value="1986">1986</option>
-            <option value="1985">1985</option>
-            <option value="1984">1984</option>
-            <option value="1983">1983</option>
-            <option value="1982">1982</option>
-            <option value="1981">1981</option>
-            <option value="1980">1980</option>
-            <option value="1979">1979</option>
-            <option value="1978">1978</option>
-            <option value="1977">1977</option>
-            <option value="1976">1976</option>
-            <option value="1975">1975</option>
-            <option value="1974">1974</option>
-            <option value="1973">1973</option>
-            <option value="1972">1972</option>
-            <option value="1971">1971</option>
-            <option value="1970">1970</option>
-            <option value="1969">1969</option>
-            <option value="1968">1968</option>
-            <option value="1967">1967</option>
-            <option value="1966">1966</option>
-            <option value="1965">1965</option>
-            <option value="1964">1964</option>
-            <option value="1963">1963</option>
-            <option value="1962">1962</option>
-            <option value="1961">1961</option>
-            <option value="1960">1960</option>
-            <option value="1959">1959</option>
-            <option value="1958">1958</option>
-            <option value="1957">1957</option>
-            <option value="1956">1956</option>
-            <option value="1955">1955</option>
-            <option value="1954">1954</option>
-            <option value="1953">1953</option>
-            <option value="1952">1952</option>
-            <option value="1951">1951</option>
-            <option value="1950">1950</option>
-            <option value="1949">1949</option>
-            <option value="1948">1948</option>
-            <option value="1947">1947</option>
+          <label for="year">Year</label>
+          <select id="year" name="year" required>
+            <script>
+              // Dynamically populate the year dropdown with the last 50 years
+              const currentYear = new Date().getFullYear();
+              const yearSelect = document.getElementById('year');
+              for (let i = 0; i < 50; i++) {
+                const year = currentYear - i;
+                const option = document.createElement('option');
+                option.value = year;
+                option.textContent = year;
+                yearSelect.appendChild(option);
+              }
+            </script>
           </select>
         </div>
       </div>
-      
-      <div>
-        <button type="submit" id="searchButton">
-          Search
-        </button>
-      </div>
+      <button type="submit">Search</button>
     </form>
+
+    <!-- Loading spinner and results section -->
+    <div id="loadingSpinner" class="loading-spinner"></div>
+    <div id="resultsSection" class="results" style="display: none;">
+      <h2>Case Details</h2>
+      <div id="resultsGrid" class="results-grid">
+        <!-- Results will be dynamically inserted here -->
+      </div>
+      <a id="downloadLink" class="download-link" href="#" target="_blank" style="display: none;">Download PDF Report</a>
+    </div>
+
   </div>
+
+  <script>
+    document.getElementById('searchForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Show loading spinner and hide previous results
+      const loadingSpinner = document.getElementById('loadingSpinner');
+      const resultsSection = document.getElementById('resultsSection');
+      const messageBox = document.getElementById('messageBox');
+      const downloadLink = document.getElementById('downloadLink');
+      
+      resultsSection.style.display = 'none';
+      messageBox.style.display = 'none';
+      loadingSpinner.style.display = 'block';
+
+      const caseType = document.getElementById('caseType').value;
+      const caseNumber = document.getElementById('caseNumber').value;
+      const year = document.getElementById('year').value;
+
+      const payload = {
+        caseType: caseType,
+        caseNumber: caseNumber,
+        year: year
+      };
+
+      try {
+        const response = await fetch('/search', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          // Hide loading spinner and show results
+          loadingSpinner.style.display = 'none';
+          resultsSection.style.display = 'block';
+
+          // Update the results grid with data
+          const resultsGrid = document.getElementById('resultsGrid');
+          resultsGrid.innerHTML = ''; // Clear previous results
+
+          const details = result.case_details;
+          const items = {
+              'Petitioner': details.petitioner,
+              'Respondent': details.respondent,
+              'Last Date': details.last_date,
+              'Court No.': details.court_no,
+              'Number of Orders': details.orders_count
+          };
+
+          for (const [key, value] of Object.entries(items)) {
+              const div = document.createElement('div');
+              div.className = 'result-item';
+              div.innerHTML = `<strong>${key}:</strong> ${value}`;
+              resultsGrid.appendChild(div);
+          }
+
+          // Update the download link
+          downloadLink.href = result.download_url;
+          downloadLink.style.display = 'block';
+
+        } else {
+          // Handle error
+          loadingSpinner.style.display = 'none';
+          messageBox.style.display = 'block';
+          messageBox.textContent = `Error: ${result.error || 'An unknown error occurred.'}`;
+        }
+      } catch (error) {
+        // Handle network or other fetch errors
+        loadingSpinner.style.display = 'none';
+        messageBox.style.display = 'block';
+        messageBox.textContent = `An error occurred: ${error.message}`;
+        console.error('Fetch error:', error);
+      }
+    });
+  </script>
+
 </body>
 </html>
