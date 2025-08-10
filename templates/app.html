@@ -55,7 +55,7 @@
     .form-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 1.5rem;
+      gap: 2.5rem;
       margin-bottom: 2rem;
     }
 
@@ -125,6 +125,24 @@
       margin-bottom: 1rem;
       color: #b3c5e8;
     }
+    
+    .report-download-btn {
+        display: none; /* Hidden by default */
+        width: 100%;
+        padding: 1rem;
+        text-align: center;
+        background-color: #28a745;
+        color: #fff;
+        border-radius: 0.75rem;
+        text-decoration: none;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        transition: background-color 0.3s ease;
+    }
+
+    .report-download-btn:hover {
+        background-color: #218838;
+    }
 
     .results-grid {
       display: grid;
@@ -151,13 +169,29 @@
       margin-bottom: 0.25rem;
       color: #e0e6f0;
     }
+    
+    .orders-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .order-item {
+        background: #2a354c;
+        padding: 1rem;
+        border-radius: 0.75rem;
+        border: 1px solid #4a5c7f;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
 
     .download-link {
       display: inline-block;
       width: 100%;
       padding: 0.8rem 1rem;
       text-align: center;
-      background-color: #28a745;
+      background-color: #4a90e2; /* Using a consistent blue color */
       color: #fff;
       border-radius: 0.75rem;
       text-decoration: none;
@@ -167,7 +201,7 @@
     }
 
     .download-link:hover {
-      background-color: #218838;
+      background-color: #5d9ee9;
     }
 
     .message-box {
@@ -211,124 +245,9 @@
         <div>
           <label for="caseType">Case Type</label>
           <select id="caseType" name="caseType" required>
-            <option value="ADMIN.REPORT">ADMIN.REPORT</option>
-                <option value="ARB.A.">ARB.A.</option>
-                <option value="ARB. A. (COMM.)">ARB. A. (COMM.)</option>
-                <option value="ARB.P.">ARB.P.</option>
-                <option value="BAIL APPLN.">BAIL APPLN.</option>
-                <option value="CA">CA</option>
-                <option value="CA (COMM.IPD-CR)">CA (COMM.IPD-CR)</option>
-                <option value="C.A.(COMM.IPD-GI)">C.A.(COMM.IPD-GI)</option>
-                <option value="C.A.(COMM.IPD-PAT)">C.A.(COMM.IPD-PAT)</option>
-                <option value="C.A.(COMM.IPD-PV)">C.A.(COMM.IPD-PV)</option>
-                <option value="C.A.(COMM.IPD-TM)">C.A.(COMM.IPD-TM)</option>
-                <option value="CAVEAT(CO.)">CAVEAT(CO.)</option>
-                <option value="CC(ARB.)">CC(ARB.)</option>
-                <option value="CCP(CO.)">CCP(CO.)</option>
-                <option value="CCP(REF)">CCP(REF)</option>
-                <option value="CEAC">CEAC</option>
-                <option value="CEAR">CEAR</option>
-                <option value="CHAT.A.C.">CHAT.A.C.</option>
-                <option value="CHAT.A.REF">CHAT.A.REF</option>
-                <option value="CMI">CMI</option>
-                <option value="CM(M)">CM(M)</option>
-                <option value="CM(M)-IPD">CM(M)-IPD</option>
-                <option value="C.O.">C.O.</option>
-                <option value="CO.APP.">CO.APP.</option>
-                <option value="CO.APPL.(C)">CO.APPL.(C)</option>
-                <option value="CO.APPL.(M)">CO.APPL.(M)</option>
-                <option value="CO.A(SB)">CO.A(SB)</option>
-                <option value="C.O.(COMM.IPD-CR)">C.O.(COMM.IPD-CR)</option>
-                <option value="C.O.(COMM.IPD-GI)">C.O.(COMM.IPD-GI)</option>
-                <option value="C.O.(COMM.IPD-PAT)">C.O.(COMM.IPD-PAT)</option>
-                <option value="C.O. (COMM.IPD-TM)">C.O. (COMM.IPD-TM)</option>
-                <option value="CO.EX.">CO.EX.</option>
-                <option value="CONT.APP.(C)">CONT.APP.(C)</option>
-                <option value="CONT.CAS(C)">CONT.CAS(C)</option>
-                <option value="CONT.CAS.(CRL)">CONT.CAS.(CRL)</option>
-                <option value="CO.PET.">CO.PET.</option>
-                <option value="C.REF.(O)">C.REF.(O)</option>
-                <option value="CRL.A.">CRL.A.</option>
-                <option value="CRL.L.P.">CRL.L.P.</option>
-                <option value="CRL.M.C.">CRL.M.C.</option>
-                <option value="CRL.M.(CO.)">CRL.M.(CO.)</option>
-                <option value="CRL.M.I.">CRL.M.I.</option>
-                <option value="CRL.O.">CRL.O.</option>
-                <option value="CRL.O.(CO.)">CRL.O.(CO.)</option>
-                <option value="CRL.REF.">CRL.REF.</option>
-                <option value="CRL.REV.P.">CRL.REV.P.</option>
-                <option value="CRL.REV.P.(MAT.)">CRL.REV.P.(MAT.)</option>
-                <option value="CRL.REV.P.(NDPS)">CRL.REV.P.(NDPS)</option>
-                <option value="CRL.REV.P.(NI)">CRL.REV.P.(NI)</option>
-                <option value="C.R.P.">C.R.P.</option>
-                <option value="CRP-IPD">CRP-IPD</option>
-                <option value="C.RULE">C.RULE</option>
-                <option value="CS(COMM)">CS(COMM)</option>
-                <option value="CS(OS)">CS(OS)</option>
-                <option value="CS(OS) GP">CS(OS) GP</option>
-                <option value="CUSAA">CUSAA</option>
-                <option value="CUS.A.C.">CUS.A.C.</option>
-                <option value="CUS.A.R.">CUS.A.R.</option>
-                <option value="CUSTOM A.">CUSTOM A.</option>
-                <option value="DEATH SENTENCE REF.">DEATH SENTENCE REF.</option>
-                <option value="DEMO">DEMO</option>
-                <option value="EDC">EDC</option>
-                <option value="EDR">EDR</option>
-                <option value="EFA(COMM)">EFA(COMM)</option>
-                <option value="EFA(OS)">EFA(OS)</option>
-                <option value="EFA(OS)  (COMM)">EFA(OS)  (COMM)</option>
-                <option value="EFA(OS)(IPD)">EFA(OS)(IPD)</option>
-                <option value="EL.PET.">EL.PET.</option>
-                <option value="ETR">ETR</option>
-                <option value="EX.F.A.">EX.F.A.</option>
-                <option value="EX.P.">EX.P.</option>
-                <option value="F.A.O.">F.A.O.</option>
-                <option value="F.A.O.(OS)">F.A.O.(OS)</option>
-                <option value="F.A.O.(OS) (COMM)">F.A.O.(OS) (COMM)</option>
-                <option value="F.A.O.(OS) (IPD)">F.A.O.(OS) (IPD)</option>
-                <option value="F.A.P.">F.A.P.</option>
-                <option value="H.C.P.">H.C.P.</option>
-                <option value="I.A.P.A.">I.A.P.A.</option>
-                <option value="I.A.">I.A.</option>
-                <option value="IPA">IPA</option>
-                <option value="IPD-CR">IPD-CR</option>
-                <option value="J.B.">J.B.</option>
-                <option value="J.B.(CO.)">J.B.(CO.)</option>
-                <option value="L.A.APP.">L.A.APP.</option>
-                <option value="L.A.APP.(WPC)">L.A.APP.(WPC)</option>
-                <option value="LPA">LPA</option>
-                <option value="LPA-IPD">LPA-IPD</option>
-                <option value="MAT.APP.(F.C.)">MAT.APP.(F.C.)</option>
-                <option value="M.C.">M.C.</option>
-                <option value="MCA(CO.)">MCA(CO.)</option>
-                <option value="M.C.D.">M.C.D.</option>
-                <option value="MISC.">MISC.</option>
-                <option value="O.M.P.">O.M.P.</option>
-                <option value="O.M.P.(COMM)">O.M.P.(COMM)</option>
-                <option value="O.M.P.(EFA)">O.M.P.(EFA)</option>
-                <option value="O.M.P.(MISC)(COMM)">O.M.P.(MISC)(COMM)</option>
-                <option value="O.M.P.(T)(COMM)">O.M.P.(T)(COMM)</option>
-                <option value="P.C.">P.C.</option>
-                <option value="P.P.A.">P.P.A.</option>
-                <option value="R.F.A.">R.F.A.</option>
-                <option value="RFA(OS)">RFA(OS)</option>
-                <option value="RFA(OS)(COMM)">RFA(OS)(COMM)</option>
-                <option value="RFA(OS) (IPD)">RFA(OS) (IPD)</option>
-                <option value="R.C.A.">R.C.A.</option>
-                <option value="R.C.R.">R.C.R.</option>
-                <option value="REV.PET.">REV.PET.</option>
-                <option value="S.R.S.">S.R.S.</option>
-                <option value="S.T.APPEAL">S.T.APPEAL</option>
-                <option value="TAKE OVER">TAKE OVER</option>
-                <option value="TAX.A.">TAX.A.</option>
-                <option value="TAX.C.">TAX.C.</option>
-                <option value="W.A.">W.A.</option>
-                <option value="W.P.(C)">W.P.(C)</option>
-                <option value="W.P.(C) PIL">W.P.(C) PIL</option>
-                <option value="W.P.(C)-IPD">W.P.(C)-IPD</option>
-                <option value="W.P.(CRL)">W.P.(CRL)</option>
-                <option value="W.P.(CRL.) PIL">W.P.(CRL.) PIL</option>
-                <option value="W.P.(L)">W.P.(L)</option>
+            <option value="W.P.(C)">W.P.(C)</option>
+            <option value="CRIMINAL">CRIMINAL</option>
+            <option value="CIVIL">CIVIL</option>
           </select>
         </div>
         <!-- Case Number Input -->
@@ -361,16 +280,33 @@
     <!-- Loading spinner and results section -->
     <div id="loadingSpinner" class="loading-spinner"></div>
     <div id="resultsSection" class="results" style="display: none;">
-      <h2>Case Details</h2>
-      <div id="resultsGrid" class="results-grid">
-        <!-- Results will be dynamically inserted here -->
-      </div>
-      <a id="downloadLink" class="download-link" href="#" target="_blank" style="display: none;">Download PDF Report</a>
+        <h2>Case Details</h2>
+        <div id="resultsGrid" class="results-grid">
+            <!-- Main case details will be dynamically inserted here -->
+        </div>
+
+        <!-- New button for the full report download -->
+        <a id="reportDownloadLink" href="#" target="_blank" class="report-download-btn">Download Full Report</a>
+
+        <h2 style="margin-top: 2rem;">Individual Orders</h2>
+        <div id="ordersList" class="orders-list">
+            <!-- Individual order links will be inserted here -->
+        </div>
     </div>
 
   </div>
 
   <script>
+    // This function runs when the page loads to reset the form and hide results
+    window.onload = function() {
+        const searchForm = document.getElementById('searchForm');
+        searchForm.reset();
+        
+        // Hide the results section on page load
+        const resultsSection = document.getElementById('resultsSection');
+        resultsSection.style.display = 'none';
+    };
+
     document.getElementById('searchForm').addEventListener('submit', async (e) => {
       e.preventDefault();
 
@@ -378,10 +314,12 @@
       const loadingSpinner = document.getElementById('loadingSpinner');
       const resultsSection = document.getElementById('resultsSection');
       const messageBox = document.getElementById('messageBox');
-      const downloadLink = document.getElementById('downloadLink');
+      const ordersList = document.getElementById('ordersList');
+      const reportDownloadLink = document.getElementById('reportDownloadLink');
       
       resultsSection.style.display = 'none';
       messageBox.style.display = 'none';
+      reportDownloadLink.style.display = 'none';
       loadingSpinner.style.display = 'block';
 
       const caseType = document.getElementById('caseType').value;
@@ -410,29 +348,64 @@
           loadingSpinner.style.display = 'none';
           resultsSection.style.display = 'block';
 
-          // Update the results grid with data
+          // Update the results grid with main case data
           const resultsGrid = document.getElementById('resultsGrid');
           resultsGrid.innerHTML = ''; // Clear previous results
 
           const details = result.case_details;
-          const items = {
-              'Petitioner': details.petitioner,
-              'Respondent': details.respondent,
-              'Last Date': details.last_date,
-              'Court No.': details.court_no,
-              'Number of Orders': details.orders_count
-          };
+          
+          // Explicitly create and append the elements for better control over the layout
+          const petitionerDiv = document.createElement('div');
+          petitionerDiv.className = 'result-item';
+          petitionerDiv.innerHTML = `<strong>Petitioner:</strong> ${details.petitioner}`;
+          resultsGrid.appendChild(petitionerDiv);
 
-          for (const [key, value] of Object.entries(items)) {
-              const div = document.createElement('div');
-              div.className = 'result-item';
-              div.innerHTML = `<strong>${key}:</strong> ${value}`;
-              resultsGrid.appendChild(div);
+          const respondentDiv = document.createElement('div');
+          respondentDiv.className = 'result-item';
+          respondentDiv.innerHTML = `<strong>Respondent:</strong> ${details.respondent}`;
+          resultsGrid.appendChild(respondentDiv);
+
+          const lastDateDiv = document.createElement('div');
+          lastDateDiv.className = 'result-item';
+          lastDateDiv.innerHTML = `<strong>Last Date:</strong> ${details.last_date}`;
+          resultsGrid.appendChild(lastDateDiv);
+
+          const courtNoDiv = document.createElement('div');
+          courtNoDiv.className = 'result-item';
+          courtNoDiv.innerHTML = `<strong>Court No.:</strong> ${details.court_no}`;
+          resultsGrid.appendChild(courtNoDiv);
+          
+          // Display the summary report download link
+          if (result.download_url) {
+              reportDownloadLink.href = result.download_url;
+              reportDownloadLink.style.display = 'block';
           }
 
-          // Update the download link
-          downloadLink.href = result.download_url;
-          downloadLink.style.display = 'block';
+          // Display individual orders
+          ordersList.innerHTML = ''; // Clear previous orders
+          const individualOrders = result.orders_details; // Get the orders list
+          
+          if (individualOrders && individualOrders.length > 0) {
+              individualOrders.forEach((order, index) => {
+                  const orderItem = document.createElement('div');
+                  orderItem.className = 'order-item';
+                  
+                  const orderDate = document.createElement('span');
+                  orderDate.innerHTML = `<strong>Order Date:</strong> ${order.date}`;
+                  
+                  const pdfLink = document.createElement('a');
+                  pdfLink.href = order.link;
+                  pdfLink.target = '_blank';
+                  pdfLink.textContent = `Download PDF: Order-${index + 1}.pdf`;
+                  pdfLink.className = 'download-link';
+                  
+                  orderItem.appendChild(orderDate);
+                  orderItem.appendChild(pdfLink);
+                  ordersList.appendChild(orderItem);
+              });
+          } else {
+              ordersList.innerHTML = `<div class="result-item">No individual orders found.</div>`;
+          }
 
         } else {
           // Handle error
